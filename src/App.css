@@ -1,0 +1,67 @@
+/* App.css */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 15px;
+    padding: 0;
+    background-color: #f9f9f9; /* Light gray background */
+  }
+  
+  .container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #fff; /* White background */
+  }
+  
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  form {
+    margin-bottom: 20px;
+    margin-left: 10%;
+  }
+  
+  label {
+    font-weight: bold;
+  }
+  
+  select,
+  input[type="date"],
+  input[type="submit"] {
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 3px;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th,
+  td {
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+  
+  th {
+    background-color: #f2f2f2; /* Light gray background for header */
+    font-weight: bold;
+    color: #333; /* Dark text color */
+  }
+  
+  .success-message {
+    color: green;
+  }
+  
+  .error-message {
+    color: red;
+  }
+  
