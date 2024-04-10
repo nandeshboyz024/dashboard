@@ -1,4 +1,4 @@
-# Dashboard README
+# Dashboard
 
 This dashboard is a simple frontend application that is successfully hosted on netlify and fetches data from an API hosted on a render site. You can try the demo of the dashboard [here](https://nandeshboyz-dashboard.netlify.app/).
 
