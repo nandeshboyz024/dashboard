@@ -24,6 +24,14 @@ To run this dashboard locally:
 
 ```bash
 git clone https://github.com/nandeshboyz024/dashboard.git
+```
+
+2. Install dependencies
+```bash 
 cd dashboard
 npm install
+```
+3. Start App:
+```bash
 npm run dev
+```
