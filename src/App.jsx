@@ -4,41 +4,42 @@ import './App.css';
 
 function App() {
   const [data, setData] = useState(null); // State to store fetched data
-  const [message,setMessage]=useState("Filter dashboard report.");
-  const [success,setSuccess]=useState(false);
-  const [days,setDays]=useState(0);
-  const [totalMiles,setTotalMiles]=useState(0);
+  const [message, setMessage] = useState("Filter dashboard report.");
+  const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false); // State for loading indicator
+  const [days, setDays] = useState(0);
+  const [totalMiles, setTotalMiles] = useState(0);
   const [frequency, setFrequency] = useState('daily'); // State for frequency
   const [timeFrame, setTimeFrame] = useState(''); // State for time frame
 
   const fetchData = async () => {
+    setLoading(true); // Set loading to true when fetching data
     try {
-      const response = await axios.post('https://server-a3ss.onrender.com/filter', 
+      const response = await axios.post('https://server-a3ss.onrender.com/filter',
         {
           frequency,
           timeFrame,
         },
         {
-          headers:{
+          headers: {
             "Content-Type": "application/json",
-         },
-         withCredentials:true
+          },
+          withCredentials: true
         }
       );
-      if(response.data.success){
-          setSuccess(true);
-          console.log(response.data);
-          setData(response.data.vehicles);
-          setDays(response.data.daysBetween);
-          setTotalMiles(response.data.sumMilesDriven);
-          console.log(response.data.vehicles);
-      }
-      else{
+      setLoading(false); // Set loading back to false after data is fetched
+      if (response.data.success) {
+        setSuccess(true);
+        setData(response.data.vehicles);
+        setDays(response.data.daysBetween);
+        setTotalMiles(response.data.sumMilesDriven);
+      } else {
         setSuccess(false);
         setMessage(response.data.message);
       }
 
     } catch (error) {
+      setLoading(false); // Set loading to false if there's an error fetching data
       console.error('Error fetching data:', error);
     }
   };
@@ -62,19 +63,19 @@ function App() {
       default:
         timeFrameLabel.innerText = 'Select Time Frame:';
     }
-    setFrequency(frequency); 
+    setFrequency(frequency);
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     if (!timeFrame) {
-      setMessage('Please select a date.'); 
-      setSuccess(false); 
+      setMessage('Please select a date.');
+      setSuccess(false);
     } else {
-      fetchData(); 
+      fetchData();
     }
   };
-  
+
 
   return (
     <>
@@ -88,48 +89,48 @@ function App() {
             <option value="monthly">Monthly</option>
             <option value="yearly">Yearly</option>
           </select>
-          <br/><br/>
+          <br /><br />
           <label id="timeFrameLabel" htmlFor="timeFrame">Select Date:</label>
-          <input type="date" id="timeFrame" name="timeFrame" onChange={(e) => setTimeFrame(e.target.value)}/>
-          <br/><br/>
-          <input type="submit" value="Generate Report" style={{color:'white',background:'black',fontWeight:'bold'}}/>
+          <input type="date" id="timeFrame" name="timeFrame" onChange={(e) => setTimeFrame(e.target.value)} />
+          <br /><br />
+          <input type="submit" value="Generate Report" style={{ color: 'white', background: 'black', fontWeight: 'bold' }} />
         </form>
         <div>
-        <div>
-  {success ? (
-    <div>
-      <h2>Reports Dashboard : Total Days = {days} ; Sum Miles Driven = {totalMiles}</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>License Plate</th>
-            <th>Make</th>
-            <th>VIN</th>
-            <th>Model</th>
-            <th>Type</th>
-            <th>Date</th>
-            <th>Miles Driven</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((vehicle, index) => ( 
-            <tr key={index}>
-              <td>{vehicle.LicensePlate}</td>
-              <td>{vehicle.Make}</td>
-              <td>{vehicle.VIN}</td>
-              <td>{vehicle.Model}</td>
-              <td>{vehicle.Type}</td>
-              <td>{vehicle.Date}</td>
-              <td>{vehicle.MilesDriven}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  ) : (
-    <h1>{message}</h1>
-  )}
-</div>
+          {loading ? ( // Conditionally render the loader
+            <div className="loader" style={{textAlign:'center'}}>Loading...</div>
+          ) : success ? (
+            <div>
+              <h2>Reports Dashboard : Total Days = {days} ; Sum Miles Driven = {totalMiles}</h2>
+              <table>
+                <thead>
+                  <tr>
+                    <th>License Plate</th>
+                    <th>Make</th>
+                    <th>VIN</th>
+                    <th>Model</th>
+                    <th>Type</th>
+                    <th>Date</th>
+                    <th>Miles Driven</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data.map((vehicle, index) => (
+                    <tr key={index}>
+                      <td>{vehicle.LicensePlate}</td>
+                      <td>{vehicle.Make}</td>
+                      <td>{vehicle.VIN}</td>
+                      <td>{vehicle.Model}</td>
+                      <td>{vehicle.Type}</td>
+                      <td>{vehicle.Date}</td>
+                      <td>{vehicle.MilesDriven}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+                <h1>{message}</h1>
+              )}
         </div>
       </div>
     </>
